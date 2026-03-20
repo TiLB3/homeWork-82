@@ -15,6 +15,7 @@ export const TrackSchema = new Schema({
     validate: {
       validator: async (albumId: string) => {
         const album = await Album.findById(albumId);
+
         if (!album) return false
 
         return true;

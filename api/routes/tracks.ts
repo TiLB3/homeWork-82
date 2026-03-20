@@ -13,7 +13,7 @@ trackRouter.get('/', async (req, res) => {
   }
 
   try {
-    const track = await Track.find();
+    const track = await Track.find().populate("album");
     if(!track) return res.status(404).json({error: "No track found."});
     res.send(track);
   } catch {

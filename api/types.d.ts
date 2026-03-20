@@ -25,3 +25,9 @@ export interface ITrack {
 }
 
 export type TrackWithoutId = Omit<ITrack, "_id">;
+
+export interface UserField {
+  username: string;
+  password: string;
+  token: string;
+}

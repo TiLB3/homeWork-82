@@ -12,3 +12,11 @@ export interface IAlbum {
   releaseDate: string;
   albumCover: string | null;
 }
+
+export interface ITrack {
+  _id: string;
+  name: string;
+  album: string;
+  duration: string;
+  trackNumber: number;
+}

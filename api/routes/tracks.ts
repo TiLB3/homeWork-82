@@ -14,7 +14,7 @@ trackRouter.get('/', async (req, res) => {
   }
 
   try {
-    const track = await Track.find(query).populate("album");
+    const track = await Track.find(query).sort({trackNumber: 1}).populate("album");
     if(!track) return res.status(404).json({error: "No track found."});
     res.send(track);
   } catch {

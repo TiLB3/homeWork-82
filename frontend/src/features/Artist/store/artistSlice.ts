@@ -39,4 +39,5 @@ export const fetchArtists = createAsyncThunk<IArtist[]>("artists/fetchArtists",
   });
 
 export const listOfArtists = (state: RootState) => state.artist.artists;
+export const getLoading = (state: RootState) => state.artist.loading;
 export const artistReducer = artistSlice.reducer;

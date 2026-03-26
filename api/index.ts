@@ -6,6 +6,7 @@ import albumRouter from "./routes/albums";
 import trackRouter from "./routes/tracks";
 import usersRouter from "./routes/users";
 import trackHistory from "./routes/trackHistories";
+import {config} from "./config";
 
 const app = express();
 const port = 8000;
@@ -21,7 +22,7 @@ app.use("/tracks", trackRouter);
 app.use("/track_history", trackHistory);
 
 const run = async () => {
-  await mongoose.connect('mongodb://localhost/spotify-Timur');
+  await mongoose.connect(config.db);
 
   app.listen(port, () => {
     console.log("Server running on port " + port);

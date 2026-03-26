@@ -27,6 +27,10 @@ export const TrackSchema = new Schema({
     type: String,
     required: [true, "duration is required"],
   },
+  trackNumber: {
+    type: Number,
+    required: [true, "Track number is required"],
+  }
 });
 
 

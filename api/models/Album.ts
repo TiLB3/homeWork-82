@@ -23,7 +23,7 @@ export const AlbumSchema = new Schema({
     }
   },
   releaseDate: {
-    type: String,
+    type: Number,
     required: [true, "Release date is required"],
   },
   albumCover: {

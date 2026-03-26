@@ -6,6 +6,18 @@ import mongoose from "mongoose";
 
 const trackHistory = express.Router();
 
+trackHistory.get('/',async (req, res) => {
+  const query: {track_id?: string} = {};
+
+  if(req.query.track_id){
+    query.track_id = req.query.track_id as string;
+  }
+
+  const tracksHistories = await TrackHistory.find(query);
+
+  res.send(tracksHistories);
+})
+
 trackHistory.post("", async (req, res) => {
   const token = req.get("Authorization");
 

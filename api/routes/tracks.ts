@@ -2,18 +2,19 @@ import express from "express";
 import {Track} from "../models/Track";
 import {TrackWithoutId} from "../types";
 import {Error} from "mongoose";
+import Artist from "../models/Artist";
 
 const trackRouter = express.Router();
 
 trackRouter.get('/', async (req, res) => {
-  const query: { artist?: string } = {};
+  const query: { album?: string } = {};
 
-  if (req.query.artist) {
-    query.artist = req.query.artist as string;
+  if (req.query.album) {
+    query.album = req.query.album as string;
   }
 
   try {
-    const track = await Track.find().populate("album");
+    const track = await Track.find(query).populate("album");
     if(!track) return res.status(404).json({error: "No track found."});
     res.send(track);
   } catch {
@@ -35,9 +36,12 @@ trackRouter.post('/', async (req, res, next) => {
   }
 
   try {
+    const isFindAlbum = await Artist.findById(album);
+    if(!isFindAlbum) return res.status(404).send({error: "Album not found"});
+
     const track = new Track(newTrack);
     await track.save();
-    res.send(album);
+    res.send(track);
   } catch (error) {
     if (error instanceof Error.ValidationError) {
       return res.status(404).send({error: error});

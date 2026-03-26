@@ -3,6 +3,8 @@ import {Album} from "../models/Album";
 import mongoose, {Error} from "mongoose";
 import {AlbumWithoutId} from "../types";
 import {imageUpload} from "../multer";
+import Artists from "./artists";
+import Artist from "../models/Artist";
 
 const albumRouter = Router();
 
@@ -58,6 +60,9 @@ albumRouter.post('/', imageUpload.single("albumCover"), async (req, res, next) =
   }
 
   try {
+    const isFindArtist = await Artist.findById(artist);
+    if(!isFindArtist) return res.status(404).send({error: "unknown Artist"});
+
     const album = new Album(newAlbum);
     await album.save();
     res.send(album);

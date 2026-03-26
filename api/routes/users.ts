@@ -1,7 +1,6 @@
-import {NextFunction, Router} from "express";
+import {Router} from "express";
 import {Error} from "mongoose";
 import User from "../models/User";
-import bcrypt from "bcrypt";
 
 const usersRouter = Router();
 

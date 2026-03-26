@@ -38,5 +38,6 @@ export const fetchAlbums = createAsyncThunk<IAlbum[], string | void>("albums/fet
     return response.data;
   });
 
-export const listOfAlbums = (state: RootState) => state.artist.artists;
+export const listOfAlbums = (state: RootState) => state.album.albums;
+export const getLoading = (state: RootState) => state.album.loading;
 export const albumReducer = artistSlice.reducer;

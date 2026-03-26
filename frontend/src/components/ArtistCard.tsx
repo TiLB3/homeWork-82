@@ -18,7 +18,7 @@ interface Props {
 
 const ArtistCard: React.FC<Props> = ({_id, name, photo}) => {
   let picture = noPic;
-  if(photo) {
+  if (photo) {
     picture = base_url + "/" + photo;
   }
 
@@ -26,7 +26,16 @@ const ArtistCard: React.FC<Props> = ({_id, name, photo}) => {
     <Grid
       size={{xs: 12, sm: 6, md: 4}}
     >
-      <Card sx={{height: '100%', borderRadius: 3, boxShadow: 3,textDecoration: "none"}} component={NavLink} to={`/album?artist=${_id}`}>
+      <Card
+        sx={{
+          height: '100%',
+          borderRadius: 3,
+          boxShadow: 3,
+          textDecoration: "none"
+        }}
+        component={NavLink}
+        to={`/albums?artist=${_id}`}
+      >
         <CardActionArea>
           <CardMedia
             component="img"

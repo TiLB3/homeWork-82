@@ -8,8 +8,8 @@ export interface IArtist {
 export interface IAlbum {
   _id: string;
   name: string;
-  artist: string;
-  releaseDate: string;
+  artist: IArtist;
+  releaseDate: number;
   albumCover: string | null;
 }
 

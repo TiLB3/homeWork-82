@@ -14,7 +14,7 @@ const initialState: TrackSliceState = {
 }
 
 const TrackSlice = createSlice({
-  name: "Tracks",
+  name: "track",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -31,12 +31,13 @@ const TrackSlice = createSlice({
   }
 });
 
-export const fetchTracks = createAsyncThunk<ITrack[]>("Tracks/fetchTracks",
-  async () => {
-    const response = await axiosApi<ITrack[]>("/Tracks");
+export const fetchTracks = createAsyncThunk<ITrack[], string | void>("track/fetchTracks",
+  async (albumId) => {
+    const response = await axiosApi<ITrack[]>(albumId ? `/tracks?album=${albumId}` :"/tracks");
 
     return response.data;
   });
 
 export const listOfTracks = (state: RootState) => state.track.tracks;
+export const getLoading = (state: RootState) => state.track.loading;
 export const trackReducer = TrackSlice.reducer;

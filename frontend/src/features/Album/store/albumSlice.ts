@@ -5,11 +5,13 @@ import type {RootState} from "../../../app/store.ts";
 
 interface AlbumSliceState {
   albums: IAlbum[];
+  album: IAlbum | null;
   loading: boolean;
 }
 
 const initialState: AlbumSliceState = {
   albums: [],
+  album: null,
   loading: false,
 }
 
@@ -28,16 +30,35 @@ const artistSlice = createSlice({
     builder.addCase(fetchAlbums.rejected, (state) => {
       state.loading = false;
     });
+
+    builder.addCase(fetchAlbum.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(fetchAlbum.fulfilled, (state, action) => {
+      state.loading = false;
+      state.album = action.payload;
+    });
+    builder.addCase(fetchAlbum.rejected, (state) => {
+      state.loading = false;
+    });
   }
 });
 
 export const fetchAlbums = createAsyncThunk<IAlbum[], string | void>("albums/fetchAlbums",
   async (artistId) => {
-    const response = await axiosApi<IAlbum[]>(artistId ? `/albums?artist=${artistId}` :"/albums");
+    const response = await axiosApi<IAlbum[]>(artistId ? `/albums?artist=${artistId}` : "/albums");
+
+    return response.data;
+  });
+
+export const fetchAlbum = createAsyncThunk<IAlbum, string>("albums/fetchAlbum",
+  async (albumId) => {
+    const response = await axiosApi<IAlbum>(`/albums/${albumId}`);
 
     return response.data;
   });
 
 export const listOfAlbums = (state: RootState) => state.album.albums;
+export const getAlbum = (state: RootState) => state.album.album;
 export const getLoading = (state: RootState) => state.album.loading;
 export const albumReducer = artistSlice.reducer;

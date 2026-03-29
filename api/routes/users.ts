@@ -32,17 +32,17 @@ usersRouter.post("/sessions", async (req, res, next) => {
   const user = await User.findOne({username: username});
 
   if (!user) {
-    return res.status(401).send({error: "User Not Found"});
+    return res.status(400).send({error: "User Not Found"});
   }
 
   const isMatch = await user.checkPassword(password);
 
   if (!isMatch) {
-    return res.status(401).send({error: "Password is incorrect"});
+    return res.status(400).send({error: "Password is incorrect"});
   }
 
   user.generateToken();
-  await user.save();
+  await user.updateOne({$set: {token: user.token}});
 
   res.send({message: "Logged in successfully", user});
 });

@@ -1,4 +1,11 @@
-import {AppBar, Box, Container, Toolbar, Typography} from "@mui/material";
+import {
+  AppBar,
+  Box,
+  Button,
+  Container,
+  Toolbar,
+  Typography
+} from "@mui/material";
 import {NavLink} from "react-router-dom";
 
 const ToolBar = () => {
@@ -23,25 +30,34 @@ const ToolBar = () => {
             >
               Spotify
             </Typography>
-            <Typography
-              variant="h5"
-              sx={{
-                display: {
-                  xs: 'none',
-                  sm: 'block',
-                  textDecoration: 'none',
-                  color: 'white',
-                  "&:hover": {
-                    color: "lightGray",
-                    transition: "0.3s"
-                  }
-                }
-              }}
+
+            <Button
               component={NavLink}
-              to="/users"
+              to="/register"
+              color="inherit"
+              sx={{
+                "&:hover": {
+                  color: "lightGray",
+                  transition: "0.3s"
+                },
+              }}
             >
-              Click to register/login
-            </Typography>
+              Sign up
+            </Button>
+
+            <Button
+              component={NavLink}
+              to="/login"
+              color="inherit"
+              sx={{
+                "&:hover": {
+                  color: "lightGray",
+                  transition: "0.3s"
+                },
+              }}
+            >
+              Sign in
+            </Button>
           </Toolbar>
         </Container>
       </AppBar>

@@ -31,3 +31,9 @@ export interface UserField {
   password: string;
   token: string;
 }
+
+export interface ITrackHistory {
+  user_id: string;
+  track_id: string;
+  datetime: Date;
+}

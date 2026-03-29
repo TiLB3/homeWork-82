@@ -13,6 +13,9 @@ import {
   REGISTER,
   REHYDRATE
 } from "redux-persist";
+import {
+  trackhistoryReducer
+} from "../features/TrackHistory/store/trackHistorySlice.ts";
 
 const customStorage = {
   getItem: (key: string) => {
@@ -38,6 +41,7 @@ const rootReducer = combineReducers({
   artist: artistReducer,
   album: albumReducer,
   track: trackReducer,
+  trackhistory: trackhistoryReducer,
   user: persistReducer(usersPersistConfig, userReducer),
 });
 

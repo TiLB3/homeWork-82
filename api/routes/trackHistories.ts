@@ -1,38 +1,23 @@
 import express from "express";
-import User from "../models/User";
 import {Track} from "../models/Track";
 import TrackHistory from "../models/TrackHistory";
 import mongoose from "mongoose";
+import auth, {RequestWithUser} from "../middleware/auth";
 
 const trackHistory = express.Router();
 
-trackHistory.get('/',async (req, res) => {
-  const query: {track_id?: string} = {};
-
-  if(req.query.track_id){
-    query.track_id = req.query.track_id as string;
-  }
-
-  const tracksHistories = await TrackHistory.find(query);
+trackHistory.get('/', auth, async (req, res) => {
+  const reqWithUser = req as RequestWithUser;
+  const tracksHistories = await TrackHistory.find({user_id: reqWithUser.user._id});
 
   res.send(tracksHistories);
 })
 
-trackHistory.post("", async (req, res) => {
-  const token = req.get("Authorization");
-
-  if (!token) {
-    return res.status(401).send("No token present");
-  }
-
-  const user = await User.findOne({token});
-  if (!user) {
-    return res.status(401).send("Wrong token, unauthorized");
-  }
-
+trackHistory.post("/", auth, async (req, res) => {
   const isValidId = mongoose.Types.ObjectId.isValid(req.body.track_id);
+  const reqWithUser = req as RequestWithUser;
 
-  if(!isValidId) {
+  if (!isValidId) {
     return res.status(401).send("Not valid id");
   }
 
@@ -42,7 +27,7 @@ trackHistory.post("", async (req, res) => {
   }
 
   const trackHistory = new TrackHistory({
-    user_id: user._id,
+    user_id: reqWithUser.user._id,
     track_id: track._id,
   });
   await trackHistory.save();

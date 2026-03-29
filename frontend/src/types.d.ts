@@ -53,5 +53,11 @@ export interface ValidationError {
   _message: string;
 }
 
+export interface ITrackHistory {
+  user_id: string;
+  track_id: string;
+  datetime: Date;
+}
+
 
 

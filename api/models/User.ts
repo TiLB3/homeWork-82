@@ -1,4 +1,4 @@
-import mongoose, {Model} from "mongoose";
+import mongoose, {HydratedDocument, Model} from "mongoose";
 import bcrypt from "bcrypt";
 import {UserField} from "../types";
 import {randomUUID} from "node:crypto";
@@ -14,14 +14,18 @@ interface UserMethods {
 
 type UserModel = Model<UserField, {}, UserMethods>;
 
-const UserSchema = new Schema<UserField, UserModel, UserMethods>({
+const UserSchema = new Schema<
+  HydratedDocument<UserField>,
+  UserModel,
+  UserMethods,
+  {}>({
   username: {
     type: String,
     required: true,
     unique: true,
     validate: {
       validator: async (value: string) => {
-        const isExistUser = await User.findOne({ username: value });
+        const isExistUser = await User.findOne({username: value});
 
         if (isExistUser) return false;
         return true;
@@ -48,7 +52,7 @@ UserSchema.methods.generateToken = function () {
 }
 
 UserSchema.set("toJSON", {
-  transform: (doc, ret, options) => {
+  transform: (_doc, ret, _options) => {
     const {password, ...rest} = ret;
 
     return rest;
@@ -66,5 +70,5 @@ UserSchema.pre("save", async function () {
 });
 
 
-const User = mongoose.model<UserField, UserModel>("User", UserSchema);
+const User = mongoose.model("User", UserSchema);
 export default User;

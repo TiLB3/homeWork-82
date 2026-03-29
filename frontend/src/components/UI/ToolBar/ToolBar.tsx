@@ -23,6 +23,25 @@ const ToolBar = () => {
             >
               Spotify
             </Typography>
+            <Typography
+              variant="h5"
+              sx={{
+                display: {
+                  xs: 'none',
+                  sm: 'block',
+                  textDecoration: 'none',
+                  color: 'white',
+                  "&:hover": {
+                    color: "lightGray",
+                    transition: "0.3s"
+                  }
+                }
+              }}
+              component={NavLink}
+              to="/users"
+            >
+              Click to register/login
+            </Typography>
           </Toolbar>
         </Container>
       </AppBar>

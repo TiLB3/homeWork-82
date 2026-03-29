@@ -4,6 +4,7 @@ import Artists from "./features/Artist/Artists.tsx";
 import Albums from "./features/Album/Albums.tsx";
 import Tracks from "./features/Track/Tracks.tsx";
 import ToolBar from "./components/UI/ToolBar/ToolBar.tsx";
+import Register from "./components/Register/Register.tsx";
 
 
 const App = () => {
@@ -14,6 +15,10 @@ const App = () => {
       <ToolBar />
 
       <Routes>
+        <Route
+          path="/users"
+          element={<Register />}
+        />
         <Route
           path="/"
           element={<Artists />}

@@ -1,3 +1,9 @@
+export interface User {
+  _id: string;
+  username: string;
+  token: string;
+}
+
 export interface IArtist {
   _id: string;
   name: string;
@@ -20,3 +26,9 @@ export interface ITrack {
   duration: string;
   trackNumber: number;
 }
+
+export interface RegisterMutation {
+  username: string;
+  password: string;
+}
+

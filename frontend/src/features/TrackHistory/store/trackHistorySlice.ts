@@ -66,5 +66,5 @@ export const createTrackHistories = createAsyncThunk<void, {
 
 
 export const getListOfTrackHistories = (state: RootState) => state.trackhistory.tracksHistories;
-export const getLoading = (state: RootState) => state.trackhistory.loading;
+export const getLoadingTrackHistories = (state: RootState) => state.trackhistory.loading;
 export const trackhistoryReducer = TrackHistoriesSlice.reducer;

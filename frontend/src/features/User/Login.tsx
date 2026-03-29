@@ -62,6 +62,17 @@ const Login = () => {
         }}
       >
 
+
+        <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
+          <LockOpenIcon />
+        </Avatar>
+
+        <Typography
+          component="h1"
+          variant="h5"
+        >
+          Sign in
+        </Typography>
         {error && (
           <Alert
             severity="error"
@@ -70,15 +81,6 @@ const Login = () => {
             {error.error}
           </Alert>
         )}
-        <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
-          <LockOpenIcon/>
-        </Avatar>
-        <Typography
-          component="h1"
-          variant="h5"
-        >
-          Sign in
-        </Typography>
         <Box
           component="form"
           noValidate
@@ -119,7 +121,7 @@ const Login = () => {
             variant="contained"
             sx={{mt: 3, mb: 2}}
           >
-            Sign Up
+            Sign in
           </Button>
           <Grid
             container

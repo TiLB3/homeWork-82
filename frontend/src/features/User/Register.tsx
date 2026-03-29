@@ -128,7 +128,7 @@ const Register = () => {
             justifyContent="flex-end"
           >
             <Grid>
-              <Link to="/logi">
+              <Link to="/login">
                 Already have an account? Sign in
               </Link>
             </Grid>

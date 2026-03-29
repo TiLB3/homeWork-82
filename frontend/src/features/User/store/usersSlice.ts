@@ -86,9 +86,9 @@ export const login = createAsyncThunk<
   "user/login",
   async (loginMutation, {rejectWithValue}) => {
     try {
-      const {data: user} = await axiosApi.post<IUser>("/users/sessions", loginMutation);
+      const {data: user} = await axiosApi.post<{message: string, user: IUser }>("/users/sessions", loginMutation);
 
-      return user;
+      return user.user;
     } catch (e) {
       if (isAxiosError(e) && e.response && e.response.status === 400) {
         return rejectWithValue(e.response.data as GlobalError);

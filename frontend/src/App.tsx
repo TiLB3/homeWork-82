@@ -6,6 +6,7 @@ import Tracks from "./features/Track/Tracks.tsx";
 import ToolBar from "./components/UI/ToolBar/ToolBar.tsx";
 import Register from "./features/User/Register.tsx";
 import Login from "./features/User/Login.tsx";
+import TrackHistories from "./features/TrackHistory/TrackHistories.tsx";
 
 
 const App = () => {
@@ -35,6 +36,11 @@ const App = () => {
         <Route
           path="/tracks"
           element={<Tracks />}
+        />
+
+        <Route
+          path="/track-history"
+          element={<TrackHistories />}
         />
         <Route
           path="*"

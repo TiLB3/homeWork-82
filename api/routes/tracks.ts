@@ -3,6 +3,7 @@ import {Track} from "../models/Track";
 import {TrackWithoutId} from "../types";
 import {Error} from "mongoose";
 import Artist from "../models/Artist";
+import {Album} from "../models/Album";
 
 const trackRouter = express.Router();
 
@@ -36,7 +37,7 @@ trackRouter.post('/', async (req, res, next) => {
   }
 
   try {
-    const isFindAlbum = await Artist.findById(album);
+    const isFindAlbum = await Album.findById(album);
     if(!isFindAlbum) return res.status(404).send({error: "Album not found"});
 
     const track = new Track(newTrack);

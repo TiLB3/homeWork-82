@@ -8,7 +8,16 @@ const trackHistory = express.Router();
 
 trackHistory.get('/', auth, async (req, res) => {
   const reqWithUser = req as RequestWithUser;
-  const tracksHistories = await TrackHistory.find({user_id: reqWithUser.user._id});
+  const tracksHistories = await TrackHistory.find({user_id: reqWithUser.user._id}).populate({
+    path: "track_id",
+    populate: {
+      path: "album",
+      populate: {
+        path: "artist",
+        select: "name",
+      }
+    }
+  }).sort({ datetime: -1 });
 
   res.send(tracksHistories);
 })

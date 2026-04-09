@@ -2,6 +2,8 @@ import {useState} from "react";
 import type {IUser} from "../../../types";
 import {Button, Menu, MenuItem} from '@mui/material';
 import {NavLink} from "react-router-dom";
+import {useAppDispatch} from "../../../app/hooks.ts";
+import {logout} from "../../../features/User/store/usersSlice.ts";
 
 interface Props {
   user: IUser;
@@ -9,6 +11,7 @@ interface Props {
 
 const UserMenu: React.FC<Props> = ({user}) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const dispatch = useAppDispatch();
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(e.currentTarget);
@@ -42,7 +45,16 @@ const UserMenu: React.FC<Props> = ({user}) => {
             },
           }}
         >Track history</MenuItem>
-
+        <MenuItem
+          color="inherit"
+          sx={{
+            "&:hover": {
+              color: "lightGray",
+              transition: "0.3s"
+            },
+          }}
+          onClick={() => dispatch(logout())}
+        >Logout</MenuItem>
       </Menu>
 
     </>

@@ -30,6 +30,10 @@ export const TrackSchema = new Schema({
   trackNumber: {
     type: Number,
     required: [true, "Track number is required"],
+  },
+  isPublished: {
+    type: Boolean,
+    default: false,
   }
 });
 

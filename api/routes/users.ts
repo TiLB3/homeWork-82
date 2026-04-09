@@ -1,6 +1,7 @@
 import {Router} from "express";
 import {Error} from "mongoose";
 import User from "../models/User";
+import auth, {RequestWithUser} from "../middleware/auth";
 
 const usersRouter = Router();
 
@@ -8,7 +9,8 @@ usersRouter.post("/", async (req, res, next) => {
   try {
     const user = new User({
       username: req.body.username,
-      password: req.body.password
+      password: req.body.password,
+      role: req.body.role
     });
 
     user.generateToken();
@@ -45,6 +47,14 @@ usersRouter.post("/sessions", async (req, res, next) => {
   await user.updateOne({$set: {token: user.token}});
 
   res.send({message: "Logged in successfully", user});
+});
+
+usersRouter.delete("/sessions", auth, async (req, res) => {
+  const {user} = req as RequestWithUser;
+  user.token = '';
+  await user.save();
+
+  res.send({message: "Logged out successfully"});
 });
 
 

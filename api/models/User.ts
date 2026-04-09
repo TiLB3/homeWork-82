@@ -1,4 +1,4 @@
-import mongoose, {HydratedDocument, Model} from "mongoose";
+import mongoose, {Document, HydratedDocument, Model} from "mongoose";
 import bcrypt from "bcrypt";
 import {UserField} from "../types";
 import {randomUUID} from "node:crypto";
@@ -23,25 +23,33 @@ const UserSchema = new Schema<
     type: String,
     required: true,
     unique: true,
-    validate: {
-      validator: async (value: string) => {
-        const isExistUser = await User.findOne({username: value});
-
-        if (isExistUser) return false;
-        return true;
-      },
-      message: "Username already exists"
-    }
   },
   password: {
     type: String,
     required: true,
   },
-  token: {
+  role: {
     type: String,
     required: true,
+    default: 'user',
+    enum: ["user", "admin"],
+  },
+  token: {
+    type: String,
   }
 });
+
+UserSchema.path("username").validate({
+  validator: async function (this: Document, value: string) {
+    if (!this.isModified("username")) return true;
+    const isExistUser = await User.findOne({username: value});
+
+    if (isExistUser) return false;
+    return true;
+
+  },
+  message: "Username already exists"
+})
 
 UserSchema.methods.checkPassword = function (password: string) {
   return bcrypt.compare(password, this.password);

@@ -8,6 +8,7 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import type {RootState} from "../../../app/store.ts";
 import {axiosApi} from "../../../axiosApi.ts";
 import {isAxiosError} from "axios";
+import {toast} from "react-toastify";
 
 interface UsersSlice {
   user: IUser | null;
@@ -55,6 +56,17 @@ const usersSlice = createSlice({
       state.loginLoading = false;
       state.loginError = error || null;
     });
+
+    builder.addCase(logout.pending, (state) => {
+      state.loginLoading = true;
+    });
+    builder.addCase(logout.fulfilled, (state) => {
+      state.loginLoading = false;
+      state.user = null;
+    });
+    builder.addCase(logout.rejected, (state) => {
+      state.loginLoading = false;
+    });
   }
 });
 
@@ -97,6 +109,14 @@ export const login = createAsyncThunk<
       throw e;
     }
   });
+
+export const logout = createAsyncThunk(
+  "user/logout",
+  async () => {
+    const response = await axiosApi.delete<{message: string}>("users/sessions");
+    toast.success(response.data.message);
+  }
+)
 
 
 export const getUser = (state: RootState) => state.user.user;

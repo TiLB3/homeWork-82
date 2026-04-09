@@ -10,6 +10,7 @@ import {getUser} from "../User/store/usersSlice.ts";
 import {useNavigate} from "react-router-dom";
 import TrackHistoryCard from "../../components/TrackHistoryCard.tsx";
 import {useEffect} from "react";
+import {toast} from "react-toastify";
 
 const TrackHistories = () => {
   const dispatch = useAppDispatch();
@@ -18,8 +19,13 @@ const TrackHistories = () => {
   const loading = useAppSelector(getLoadingTrackHistories);
   const navigate = useNavigate();
 
-
   useEffect(() => {
+    if (!user) {
+      toast.warn("You are not logged in");
+      navigate("/")
+      return;
+    }
+
     const fetch = async () => {
       if (user && user.token) {
         await dispatch(fetchTrackHistories(user.token));
@@ -28,7 +34,7 @@ const TrackHistories = () => {
     }
 
     void fetch();
-  }, [dispatch])
+  }, [dispatch, user])
 
   if (!user) {
     navigate("/");

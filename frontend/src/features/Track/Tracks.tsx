@@ -16,6 +16,7 @@ const Tracks = () => {
   const albumId = searchParams.get('album');
 
   useEffect(() => {
+
     const fetch = async () => {
       if (albumId) {
         await dispatch(fetchAlbum(albumId));
@@ -24,7 +25,7 @@ const Tracks = () => {
     }
 
     void fetch();
-  }, [dispatch]);
+  }, [dispatch, albumId]);
   return (
     <Container sx={{py: 5}}>
       <Box sx={{mb: 4}}>

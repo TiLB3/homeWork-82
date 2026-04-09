@@ -29,6 +29,10 @@ export const AlbumSchema = new Schema({
   albumCover: {
     type: String,
     default: null,
+  },
+  isPublished: {
+    type: Boolean,
+    default: false,
   }
 });
 

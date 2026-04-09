@@ -30,10 +30,6 @@ export interface UserField {
   username: string;
   password: string;
   token: string;
+  role: string;
 }
 
-export interface ITrackHistory {
-  user_id: string;
-  track_id: string;
-  datetime: Date;
-}

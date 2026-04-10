@@ -24,9 +24,10 @@ interface Props {
   name: string;
   photo: string | null;
   isPublished: boolean;
+  user_id: string;
 }
 
-const ArtistCard: React.FC<Props> = ({_id, name, photo, isPublished}) => {
+const ArtistCard: React.FC<Props> = ({_id, name, photo, isPublished,user_id}) => {
   let picture = noPic;
   if (photo) {
     picture = base_url + "/" + photo;
@@ -92,7 +93,7 @@ const ArtistCard: React.FC<Props> = ({_id, name, photo, isPublished}) => {
         </CardActionArea>
       </Card>
       <Box sx={{display: "flex", alignItems: "center", columnGap: 4}}>
-        {user && user.role === "admin" && <Button
+        {user && user.role === "admin" || (user?._id === user_id && !isPublished) && <Button
           sx={{my: 1}}
           loading={loading}
           loadingPosition="end"

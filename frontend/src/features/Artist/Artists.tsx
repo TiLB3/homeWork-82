@@ -32,12 +32,13 @@ const Artists = () => {
         {loading
           ? <Spinner isLoading={loading} />
           : artists.map((artist) => (
-            <ProtectedRouter key={artist._id} isAllowed={user?.role === 'admin' || artist.isPublished}>
+            <ProtectedRouter key={artist._id} isAllowed={user?.role === 'admin' || user?._id === artist.user_id || artist.isPublished}>
               <ArtistCard
                 _id={artist._id}
                 name={artist.name}
                 photo={artist.photo}
                 isPublished={artist.isPublished}
+                user_id={artist.user_id}
               />
             </ProtectedRouter>
           ))}

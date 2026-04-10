@@ -27,6 +27,7 @@ interface Props {
   albumCover: string | null;
   isPublished: boolean;
   artistId: string | null;
+  user_id: string;
 }
 
 const AlbumCard: React.FC<Props> = ({
@@ -35,7 +36,8 @@ const AlbumCard: React.FC<Props> = ({
                                       releaseDate,
                                       albumCover,
                                       isPublished,
-                                      artistId
+                                      artistId,
+                                      user_id
                                     }) => {
   let picture = noPic;
   if (albumCover) {
@@ -115,7 +117,7 @@ const AlbumCard: React.FC<Props> = ({
         </CardActionArea>
       </Card>
       <Box sx={{display: "flex", alignItems: "center", columnGap: 4}}>
-        {user && user.role === "admin" && <Button
+        {user && user.role === "admin" || (user?._id === user_id && !isPublished) && <Button
           sx={{my: 1}}
           loading={loading}
           loadingPosition="end"
@@ -123,7 +125,7 @@ const AlbumCard: React.FC<Props> = ({
           onClick={deleteEntity}
         >delete</Button>}
 
-        {user && user.role === "admin" && !isPublished && <Button
+        {user && user.role === "admin"  && !isPublished && <Button
           sx={{my: 1}}
           loading={loading}
           loadingPosition="end"

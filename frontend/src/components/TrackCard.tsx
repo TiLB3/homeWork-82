@@ -18,9 +18,18 @@ interface Props {
   id: string;
   albumId: string | null;
   isPublished: boolean;
+  user_id: string;
 }
 
-const TrackCard: React.FC<Props> = ({name, duration, trackNumber, id,albumId,isPublished}) => {
+const TrackCard: React.FC<Props> = ({
+                                      name,
+                                      duration,
+                                      trackNumber,
+                                      id,
+                                      albumId,
+                                      isPublished,
+                                      user_id
+                                    }) => {
   const user = useAppSelector(getUser);
   const dispatch = useAppDispatch();
   const loading = useAppSelector(getDeleteTrackLoading);
@@ -102,7 +111,7 @@ const TrackCard: React.FC<Props> = ({name, duration, trackNumber, id,albumId,isP
           )}
 
           <Box sx={{display: "flex", alignItems: "center", columnGap: 4}}>
-            {user && user.role === "admin" && <Button
+            {user && user.role === "admin" || (user?._id === user_id && !isPublished) && <Button
               sx={{my: 1}}
               loading={loading}
               loadingPosition="end"

@@ -53,7 +53,7 @@ const Albums = () => {
           : albums.map((album) => (
             <ProtectedRouter
               key={album._id}
-              isAllowed={user?.role === 'admin' || album.isPublished}
+              isAllowed={user?.role === 'admin' || user?._id === album.user_id || album.isPublished}
             >
               <AlbumCard
                 _id={album._id}
@@ -62,6 +62,7 @@ const Albums = () => {
                 releaseDate={album.releaseDate}
                 isPublished={album.isPublished}
                 artistId={artistId}
+                user_id={album.user_id}
               />
             </ProtectedRouter>
           ))}

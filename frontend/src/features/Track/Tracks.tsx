@@ -66,7 +66,7 @@ const Tracks = () => {
           : tracks.map((track) => (
             <ProtectedRouter
               key={track._id}
-              isAllowed={user?.role === 'admin' || track.isPublished}
+              isAllowed={user?.role === 'admin' || user?._id === track.user_id || track.isPublished}
             >
 
               <TrackCard
@@ -76,6 +76,7 @@ const Tracks = () => {
                 trackNumber={track.trackNumber}
                 isPublished={track.isPublished}
                 albumId={albumId}
+                user_id={track.user_id}
               />
             </ProtectedRouter>
           ))}

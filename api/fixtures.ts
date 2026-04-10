@@ -59,7 +59,7 @@ const run = async () => {
       photo: "fixtures/images/image-57.png",
       information: null,
       isPublished: false,
-      user_id: admin._id
+      user_id: user._id
     },
   );
 

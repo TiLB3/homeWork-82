@@ -1,9 +1,24 @@
 import mongoose, {Types} from "mongoose";
 import {Album, AlbumSchema} from "./Album";
+import User from "./User";
 
 const Schema = mongoose.Schema;
 
 export const TrackSchema = new Schema({
+  user_id: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+    validate: {
+      validator: async (userId: string) => {
+        const user = await User.findById(userId);
+        if (!user) return false
+
+        return true;
+      },
+      message: "User's is not exist",
+    }
+  },
   name: {
     type: String,
     required: [true, "Name of track is required"],

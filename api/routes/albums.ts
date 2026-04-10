@@ -59,13 +59,13 @@ albumRouter.post('/', imageUpload.single("albumCover"), async (req, res, next) =
   const newAlbum: AlbumWithoutId = {
     name,
     artist,
-    releaseDate,
+    releaseDate: Number(releaseDate),
     albumCover: req.file ? "images/" + req.file.filename : null,
   }
 
   try {
     const isFindArtist = await Artist.findById(artist);
-    if(!isFindArtist) return res.status(404).send({error: "unknown Artist"});
+    if (!isFindArtist) return res.status(404).send({error: "unknown Artist"});
 
     const album = new Album(newAlbum);
     await album.save();
@@ -80,11 +80,11 @@ albumRouter.post('/', imageUpload.single("albumCover"), async (req, res, next) =
 })
 
 
-albumRouter.delete("/:id", auth, permit("admin"), async (req, res,next) => {
+albumRouter.delete("/:id", auth, permit("admin"), async (req, res, next) => {
   const {id} = req.params;
   const isValidId = Types.ObjectId.isValid(id as string);
 
-  if(!isValidId) {
+  if (!isValidId) {
     return res.status(400).send({error: "Invalid ID"});
   }
 
@@ -109,7 +109,6 @@ albumRouter.patch("/:id/togglePublished", auth, permit("admin"), async (req, res
     if (!isValidId) {
       return res.status(400).send({error: "Invalid ID"});
     }
-
 
 
     const newAlbum = await Album.findById(id);

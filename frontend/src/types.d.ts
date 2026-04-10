@@ -11,6 +11,12 @@ export interface IArtist {
   information: string | null;
 }
 
+export interface IArtistWithoutID {
+  name: string;
+  photo: File | null;
+  information: string | null;
+}
+
 export interface IAlbum {
   _id: string;
   name: string;
@@ -19,10 +25,24 @@ export interface IAlbum {
   albumCover: string | null;
 }
 
+export interface IAlbumWithoutID {
+  name: string;
+  artist: string;
+  releaseDate: string;
+  albumCover: File | null;
+}
+
 export interface ITrack {
   _id: string;
   name: string;
   album: IAlbum;
+  duration: string;
+  trackNumber: number;
+}
+
+export interface ITrackWithoutID {
+  name: string;
+  album: string;
   duration: string;
   trackNumber: number;
 }

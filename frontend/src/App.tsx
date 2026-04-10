@@ -7,9 +7,17 @@ import ToolBar from "./components/UI/ToolBar/ToolBar.tsx";
 import Register from "./features/User/Register.tsx";
 import Login from "./features/User/Login.tsx";
 import TrackHistories from "./features/TrackHistory/TrackHistories.tsx";
+import NewArtist from "./features/Artist/store/NewArtist.tsx";
+import ProtectedRouter
+  from "./components/UI/ProtectedRouter/ProtectedRouter.tsx";
+import {useAppSelector} from "./app/hooks.ts";
+import {getUser} from "./features/User/store/usersSlice.ts";
+import NewAlbum from "./features/Album/NewAlbum.tsx";
+import NewTrack from "./features/Track/NewTrack.tsx";
 
 
 const App = () => {
+  const user = useAppSelector(getUser);
 
   return (
     <>
@@ -30,14 +38,28 @@ const App = () => {
           element={<Artists />}
         />
         <Route
+          path="/artists/new"
+          element={
+            <ProtectedRouter isAllowed={Boolean(user)}><NewArtist /></ProtectedRouter>}
+        />
+        <Route
           path="/albums"
           element={<Albums />}
+        />
+        <Route
+          path="/albums/new"
+          element={
+            <ProtectedRouter isAllowed={Boolean(user)}><NewAlbum /></ProtectedRouter>}
         />
         <Route
           path="/tracks"
           element={<Tracks />}
         />
-
+        <Route
+          path="/tracks/new"
+          element={
+            <ProtectedRouter isAllowed={Boolean(user)}><NewTrack /></ProtectedRouter>}
+        />
         <Route
           path="/track-history"
           element={<TrackHistories />}

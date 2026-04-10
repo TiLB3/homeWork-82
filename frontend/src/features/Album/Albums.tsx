@@ -60,6 +60,8 @@ const Albums = () => {
                 name={album.name}
                 albumCover={album.albumCover}
                 releaseDate={album.releaseDate}
+                isPublished={album.isPublished}
+                artistId={artistId}
               />
             </ProtectedRouter>
           ))}

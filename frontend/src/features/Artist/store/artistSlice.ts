@@ -52,6 +52,16 @@ const artistSlice = createSlice({
     builder.addCase(deleteArtist.rejected, (state) => {
       state.deleteLoading = false;
     });
+
+    builder.addCase(publicateArtist.pending, (state) => {
+      state.deleteLoading = true;
+    });
+    builder.addCase(publicateArtist.fulfilled, (state) => {
+      state.deleteLoading = false;
+    });
+    builder.addCase(publicateArtist.rejected, (state) => {
+      state.deleteLoading = false;
+    });
   }
 });
 
@@ -84,6 +94,14 @@ export const deleteArtist = createAsyncThunk<void, string>(
   "artists/deleteArtist",
   async (artistId) => {
     await axiosApi.delete(`artists/${artistId}`);
+  }
+)
+
+
+export const publicateArtist = createAsyncThunk<void, string>(
+  "artists/publicateArtist",
+  async (artistId) => {
+    await axiosApi.patch(`artists/${artistId}/togglePublished`);
   }
 )
 

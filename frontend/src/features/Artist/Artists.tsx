@@ -37,6 +37,7 @@ const Artists = () => {
                 _id={artist._id}
                 name={artist.name}
                 photo={artist.photo}
+                isPublished={artist.isPublished}
               />
             </ProtectedRouter>
           ))}

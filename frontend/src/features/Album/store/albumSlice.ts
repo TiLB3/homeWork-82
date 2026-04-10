@@ -65,6 +65,16 @@ const artistSlice = createSlice({
     builder.addCase(deleteAlbum.rejected, (state) => {
       state.deleteLoading = false;
     });
+
+    builder.addCase(publicateAlbum.pending, (state) => {
+      state.deleteLoading = true;
+    });
+    builder.addCase(publicateAlbum.fulfilled, (state) => {
+      state.deleteLoading = false;
+    });
+    builder.addCase(publicateAlbum.rejected, (state) => {
+      state.deleteLoading = false;
+    });
   }
 });
 
@@ -105,6 +115,13 @@ export const deleteAlbum = createAsyncThunk<void, string>(
   "albums/deleteAlbum",
   async (albumId) => {
     await axiosApi.delete(`albums/${albumId}`);
+  }
+)
+
+export const publicateAlbum = createAsyncThunk<void, string>(
+  "albums/publicateAlbum",
+  async (albumId) => {
+    await axiosApi.patch(`albums/${albumId}/togglePublished`);
   }
 )
 

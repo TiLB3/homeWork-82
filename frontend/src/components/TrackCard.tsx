@@ -2,20 +2,42 @@ import {Box, Button, Card, CardContent, Grid, Typography} from "@mui/material";
 import {getUser} from "../features/User/store/usersSlice.ts";
 import {useAppDispatch, useAppSelector} from "../app/hooks.ts";
 import {
-  createTrackHistories, getLoadingTrackHistories
+  createTrackHistories
 } from "../features/TrackHistory/store/trackHistorySlice.ts";
+import {
+  deleteTrack,
+  fetchTracks,
+  getDeleteTrackLoading,
+  publicateTrack
+} from "../features/Track/store/trackSlice.ts";
 
 interface Props {
   name: string;
   duration: string;
   trackNumber: number;
   id: string;
+  albumId: string | null;
+  isPublished: boolean;
 }
 
-const TrackCard: React.FC<Props> = ({name, duration, trackNumber, id}) => {
+const TrackCard: React.FC<Props> = ({name, duration, trackNumber, id,albumId,isPublished}) => {
   const user = useAppSelector(getUser);
   const dispatch = useAppDispatch();
-  const loading = useAppSelector(getLoadingTrackHistories);
+  const loading = useAppSelector(getDeleteTrackLoading);
+
+  const deleteEntity = async () => {
+    await dispatch(deleteTrack(id));
+    if (albumId) {
+      await dispatch(fetchTracks(albumId));
+    }
+  }
+
+  const publicateEntity = async () => {
+    await dispatch(publicateTrack(id));
+    if (albumId) {
+      await dispatch(fetchTracks(albumId));
+    }
+  }
 
   const playTrack = async () => {
     if (!user) return;
@@ -68,6 +90,33 @@ const TrackCard: React.FC<Props> = ({name, duration, trackNumber, id}) => {
               {trackNumber}
             </Typography>
 
+          </Box>
+          {!isPublished && (
+            <Typography
+              variant="h6"
+              component="div"
+              noWrap
+            >
+              Неопубликованно
+            </Typography>
+          )}
+
+          <Box sx={{display: "flex", alignItems: "center", columnGap: 4}}>
+            {user && user.role === "admin" && <Button
+              sx={{my: 1}}
+              loading={loading}
+              loadingPosition="end"
+              variant="contained"
+              onClick={deleteEntity}
+            >delete</Button>}
+
+            {user && user.role === "admin" && !isPublished && <Button
+              sx={{my: 1}}
+              loading={loading}
+              loadingPosition="end"
+              variant="contained"
+              onClick={publicateEntity}
+            >Publicate</Button>}
           </Box>
         </CardContent>
       </Card>

@@ -52,6 +52,16 @@ const TrackSlice = createSlice({
     builder.addCase(deleteTrack.rejected, (state) => {
       state.deleteLoading = false;
     });
+
+    builder.addCase(publicateTrack.pending, (state) => {
+      state.deleteLoading = true;
+    });
+    builder.addCase(publicateTrack.fulfilled, (state) => {
+      state.deleteLoading = false;
+    });
+    builder.addCase(publicateTrack.rejected, (state) => {
+      state.deleteLoading = false;
+    });
   }
 });
 
@@ -76,6 +86,14 @@ export const deleteTrack = createAsyncThunk<void, string>(
     await axiosApi.delete(`tracks/${trackId}`);
   }
 )
+
+export const publicateTrack = createAsyncThunk<void, string>(
+  "track/publicateTrack",
+  async (trackId) => {
+    await axiosApi.patch(`tracks/${trackId}/togglePublished`);
+  }
+)
+
 
 export const listOfTracks = (state: RootState) => state.track.tracks;
 export const getLoading = (state: RootState) => state.track.loading;

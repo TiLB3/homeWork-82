@@ -1,4 +1,6 @@
 import {
+  Box,
+  Button,
   CardActionArea,
   CardContent,
   CardMedia,
@@ -9,17 +11,39 @@ import Card from "@mui/material/Card";
 import noPic from "../assets/NoPic.png";
 import {base_url} from "../globalConstants.ts";
 import {NavLink} from "react-router-dom";
+import {useAppDispatch, useAppSelector} from "../app/hooks.ts";
+import {
+  deleteArtist,
+  fetchArtists,
+  getDeleteArtistLoading, publicateArtist
+} from "../features/Artist/store/artistSlice.ts";
+import {getUser} from "../features/User/store/usersSlice.ts";
 
 interface Props {
   _id: string;
   name: string;
   photo: string | null;
+  isPublished: boolean;
 }
 
-const ArtistCard: React.FC<Props> = ({_id, name, photo}) => {
+const ArtistCard: React.FC<Props> = ({_id, name, photo, isPublished}) => {
   let picture = noPic;
   if (photo) {
     picture = base_url + "/" + photo;
+  }
+
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(getUser);
+  const loading = useAppSelector(getDeleteArtistLoading);
+
+  const deleteEntity = async () => {
+    await dispatch(deleteArtist(_id));
+    await dispatch(fetchArtists());
+  }
+
+  const publicateEntity = async () => {
+    await dispatch(publicateArtist(_id));
+    await dispatch(fetchArtists());
   }
 
   return (
@@ -54,9 +78,37 @@ const ArtistCard: React.FC<Props> = ({_id, name, photo}) => {
             >
               {name}
             </Typography>
+
+            {!isPublished && (
+              <Typography
+                variant="h6"
+                component="div"
+                noWrap
+              >
+                Неопубликованно
+              </Typography>
+            )}
           </CardContent>
         </CardActionArea>
       </Card>
+      <Box sx={{display: "flex", alignItems: "center", columnGap: 4}}>
+        {user && user.role === "admin" && <Button
+          sx={{my: 1}}
+          loading={loading}
+          loadingPosition="end"
+          variant="contained"
+          onClick={deleteEntity}
+        >delete</Button>}
+
+        {user && user.role === "admin" && !isPublished && <Button
+          sx={{my: 1}}
+          loading={loading}
+          loadingPosition="end"
+          variant="contained"
+          onClick={publicateEntity}
+        >Publicate</Button>}
+      </Box>
+
     </Grid>
   );
 };

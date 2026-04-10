@@ -74,6 +74,8 @@ const Tracks = () => {
                 name={track.name}
                 duration={track.duration}
                 trackNumber={track.trackNumber}
+                isPublished={track.isPublished}
+                albumId={albumId}
               />
             </ProtectedRouter>
           ))}

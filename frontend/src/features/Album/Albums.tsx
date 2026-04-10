@@ -5,6 +5,9 @@ import {fetchAlbums, getLoading, listOfAlbums} from "./store/albumSlice.ts";
 import {useEffect} from "react";
 import {useSearchParams} from "react-router-dom";
 import AlbumCard from "../../components/AlbumCard.tsx";
+import ProtectedRouter
+  from "../../components/UI/ProtectedRouter/ProtectedRouter.tsx";
+import {getUser} from "../User/store/usersSlice.ts";
 
 const Albums = () => {
   const loading = useAppSelector(getLoading);
@@ -12,6 +15,7 @@ const Albums = () => {
   const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
   const artistId = searchParams.get('artist');
+  const user = useAppSelector(getUser);
 
   useEffect(() => {
     const fetch = async () => {
@@ -47,13 +51,17 @@ const Albums = () => {
         {loading
           ? <Spinner isLoading={loading} />
           : albums.map((album) => (
-            <AlbumCard
+            <ProtectedRouter
               key={album._id}
-              _id={album._id}
-              name={album.name}
-              albumCover={album.albumCover}
-              releaseDate={album.releaseDate}
-            />
+              isAllowed={user?.role === 'admin' || album.isPublished}
+            >
+              <AlbumCard
+                _id={album._id}
+                name={album.name}
+                albumCover={album.albumCover}
+                releaseDate={album.releaseDate}
+              />
+            </ProtectedRouter>
           ))}
         {!loading && albums.length === 0 && (
           <>

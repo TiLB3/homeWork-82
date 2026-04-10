@@ -6,6 +6,9 @@ import {Box, Container, Divider, Grid, Typography} from "@mui/material";
 import Spinner from "../../components/UI/Spinner/Spinner.tsx";
 import TrackCard from "../../components/TrackCard.tsx";
 import {fetchAlbum, getAlbum} from "../Album/store/albumSlice.ts";
+import ProtectedRouter
+  from "../../components/UI/ProtectedRouter/ProtectedRouter.tsx";
+import {getUser} from "../User/store/usersSlice.ts";
 
 const Tracks = () => {
   const loading = useAppSelector(getLoading);
@@ -14,6 +17,7 @@ const Tracks = () => {
   const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
   const albumId = searchParams.get('album');
+  const user = useAppSelector(getUser);
 
   useEffect(() => {
 
@@ -60,13 +64,18 @@ const Tracks = () => {
         {loading
           ? <Spinner isLoading={loading} />
           : tracks.map((track) => (
-            <TrackCard
+            <ProtectedRouter
               key={track._id}
-              id={track._id}
-              name={track.name}
-              duration={track.duration}
-              trackNumber={track.trackNumber}
-            />
+              isAllowed={user?.role === 'admin' || track.isPublished}
+            >
+
+              <TrackCard
+                id={track._id}
+                name={track.name}
+                duration={track.duration}
+                trackNumber={track.trackNumber}
+              />
+            </ProtectedRouter>
           ))}
         {!loading && tracks.length === 0 && (
           <>

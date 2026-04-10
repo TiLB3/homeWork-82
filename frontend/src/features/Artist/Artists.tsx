@@ -4,11 +4,15 @@ import {fetchArtists, getLoading, listOfArtists} from "./store/artistSlice.ts";
 import {useEffect} from "react";
 import ArtistCard from "../../components/ArtistCard.tsx";
 import Spinner from "../../components/UI/Spinner/Spinner.tsx";
+import ProtectedRouter
+  from "../../components/UI/ProtectedRouter/ProtectedRouter.tsx";
+import {getUser} from "../User/store/usersSlice.ts";
 
 const Artists = () => {
   const dispatch = useAppDispatch();
   const artists = useAppSelector(listOfArtists);
   const loading = useAppSelector(getLoading);
+  const user = useAppSelector(getUser);
 
 
   useEffect(() => {
@@ -28,12 +32,13 @@ const Artists = () => {
         {loading
           ? <Spinner isLoading={loading} />
           : artists.map((artist) => (
-            <ArtistCard
-              key={artist._id}
-              _id={artist._id}
-              name={artist.name}
-              photo={artist.photo}
-            />
+            <ProtectedRouter key={artist._id} isAllowed={user?.role === 'admin' || artist.isPublished}>
+              <ArtistCard
+                _id={artist._id}
+                name={artist.name}
+                photo={artist.photo}
+              />
+            </ProtectedRouter>
           ))}
         {!loading && artists.length === 0 && (
           <>

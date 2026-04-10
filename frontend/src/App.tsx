@@ -40,7 +40,10 @@ const App = () => {
         <Route
           path="/artists/new"
           element={
-            <ProtectedRouter isAllowed={Boolean(user)}><NewArtist /></ProtectedRouter>}
+            <ProtectedRouter
+              isAllowed={Boolean(user)}
+              isNeedRedirect={true}
+            ><NewArtist /></ProtectedRouter>}
         />
         <Route
           path="/albums"
@@ -49,7 +52,10 @@ const App = () => {
         <Route
           path="/albums/new"
           element={
-            <ProtectedRouter isAllowed={Boolean(user)}><NewAlbum /></ProtectedRouter>}
+            <ProtectedRouter
+              isAllowed={Boolean(user)}
+              isNeedRedirect={true}
+            ><NewAlbum /></ProtectedRouter>}
         />
         <Route
           path="/tracks"
@@ -58,7 +64,10 @@ const App = () => {
         <Route
           path="/tracks/new"
           element={
-            <ProtectedRouter isAllowed={Boolean(user)}><NewTrack /></ProtectedRouter>}
+            <ProtectedRouter
+              isAllowed={Boolean(user)}
+              isNeedRedirect={true}
+            ><NewTrack /></ProtectedRouter>}
         />
         <Route
           path="/track-history"

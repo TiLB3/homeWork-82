@@ -2,6 +2,7 @@ export interface IUser {
   _id: string;
   username: string;
   token: string;
+  role: string;
 }
 
 export interface IArtist {
@@ -9,6 +10,7 @@ export interface IArtist {
   name: string;
   photo: string | null;
   information: string | null;
+  isPublished: boolean;
   user_id: string;
 }
 
@@ -25,6 +27,7 @@ export interface IAlbum {
   artist: IArtist;
   releaseDate: number;
   albumCover: string | null;
+  isPublished: boolean;
   user_id: string;
 }
 
@@ -43,6 +46,7 @@ export interface ITrack {
   duration: string;
   trackNumber: number;
   user_id: string;
+  isPublished: boolean;
 }
 
 export interface ITrackWithoutID {

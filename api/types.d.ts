@@ -3,6 +3,7 @@ export interface IArtist {
   name: string;
   photo: string | null;
   information: string | null;
+  user_id: string;
 }
 
 export type ArtistWithoutId = Omit<IArtist, "_id">;
@@ -11,8 +12,10 @@ export interface IAlbum {
   _id: string;
   name: string;
   artist: string;
-  releaseDate: string;
+  releaseDate: number;
   albumCover: string | null;
+  user_id: string;
+
 }
 
 export type AlbumWithoutId = Omit<IAlbum, "_id">;
@@ -22,6 +25,8 @@ export interface ITrack {
   name: string;
   album: string;
   duration: string;
+  user_id: string;
+  trackNumber: number;
 }
 
 export type TrackWithoutId = Omit<ITrack, "_id">;

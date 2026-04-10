@@ -9,12 +9,14 @@ export interface IArtist {
   name: string;
   photo: string | null;
   information: string | null;
+  user_id: string;
 }
 
 export interface IArtistWithoutID {
   name: string;
   photo: File | null;
   information: string | null;
+  user_id: string;
 }
 
 export interface IAlbum {
@@ -23,6 +25,7 @@ export interface IAlbum {
   artist: IArtist;
   releaseDate: number;
   albumCover: string | null;
+  user_id: string;
 }
 
 export interface IAlbumWithoutID {
@@ -30,6 +33,7 @@ export interface IAlbumWithoutID {
   artist: string;
   releaseDate: string;
   albumCover: File | null;
+  user_id: string;
 }
 
 export interface ITrack {
@@ -38,6 +42,7 @@ export interface ITrack {
   album: IAlbum;
   duration: string;
   trackNumber: number;
+  user_id: string;
 }
 
 export interface ITrackWithoutID {
@@ -45,6 +50,7 @@ export interface ITrackWithoutID {
   album: string;
   duration: string;
   trackNumber: number;
+  user_id: string;
 }
 
 export interface RegisterMutation {

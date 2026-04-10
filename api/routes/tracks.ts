@@ -27,16 +27,18 @@ trackRouter.get('/', async (req, res) => {
 });
 
 trackRouter.post('/', async (req, res, next) => {
-  const {name, album, duration} = req.body;
+  const {name, album, duration,user_id,trackNumber} = req.body;
 
-  if (!name || !album || !duration) {
-    return res.status(400).send({error: "Required name, album id and duration"});
+  if (!name || !album || !duration || !user_id || !trackNumber) {
+    return res.status(400).send({error: "Required name, album id and duration,user_id and trackNumber"});
   }
 
   const newTrack: TrackWithoutId = {
     name,
     album,
     duration,
+    trackNumber,
+    user_id,
   }
 
   try {

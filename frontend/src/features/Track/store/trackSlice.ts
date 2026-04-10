@@ -79,4 +79,6 @@ export const deleteTrack = createAsyncThunk<void, string>(
 
 export const listOfTracks = (state: RootState) => state.track.tracks;
 export const getLoading = (state: RootState) => state.track.loading;
+export const getCreateTrackLoading = (state: RootState) => state.track.createLoading;
+export const getDeleteTrackLoading = (state: RootState) => state.track.deleteLoading;
 export const trackReducer = TrackSlice.reducer;

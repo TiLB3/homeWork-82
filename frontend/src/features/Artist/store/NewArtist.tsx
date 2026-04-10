@@ -4,6 +4,7 @@ import {useNavigate} from "react-router-dom";
 import {getUser} from "../../User/store/usersSlice.ts";
 import type {IArtistWithoutID} from "../../../types";
 import {createArtist, getCreateArtistLoading} from "./artistSlice.ts";
+import ArtistsForm from "../components/ArtistsForm.tsx";
 
 
 const NewArtist = () => {
@@ -13,7 +14,7 @@ const NewArtist = () => {
   const user = useAppSelector(getUser);
 
 
-  const onCreateNewItem = async (newArtist: IArtistWithoutID) => {
+  const onCreateNewArtist = async (newArtist: IArtistWithoutID) => {
     if (!user) return;
     await dispatch(createArtist(newArtist));
     navigate("/");
@@ -25,10 +26,10 @@ const NewArtist = () => {
         variant="h4"
         sx={{textAlign: 'center', mb: 4}}
       >
-        New Item
+        New Artist
       </Typography>
 
-
+      <ArtistsForm onSubmit={onCreateNewArtist} loading={loading} />
     </Box>
   );
 };

@@ -22,16 +22,17 @@ artistRouter.get("/", async (req, res) => {
 
 artistRouter.post("/", auth, imageUpload.single("photo"), async (req, res, next) => {
   try {
-    const {name, information} = req.body;
+    const {name, information, user_id} = req.body;
 
-    if (!name || name.trim().length === 0) {
-      return res.status(400).send({error: "Name is required"});
+    if (!name || name.trim().length === 0 || !user_id  || user_id.trim().length === 0) {
+      return res.status(400).send({error: "Name is required and user_id"});
     }
 
     const newArtist: ArtistWithoutId = {
       name: name,
       photo: req.file ? "images/" + req.file.filename : null,
       information: information,
+      user_id: req.body.user_id,
     }
     const artist = new Artist(newArtist);
     await artist.save();

@@ -50,10 +50,10 @@ albumRouter.get('/:id', async (req, res) => {
 });
 
 albumRouter.post('/', imageUpload.single("albumCover"), async (req, res, next) => {
-  const {name, artist, releaseDate} = req.body;
+  const {name, artist, releaseDate,user_id} = req.body;
 
-  if (!name || !artist || !releaseDate) {
-    return res.status(400).send({error: "Required name, artist id and releaseDate"});
+  if (!name || !artist || !releaseDate || !user_id) {
+    return res.status(400).send({error: "Required name, artist id and releaseDate,user_id"});
   }
 
   const newAlbum: AlbumWithoutId = {
@@ -61,6 +61,7 @@ albumRouter.post('/', imageUpload.single("albumCover"), async (req, res, next) =
     artist,
     releaseDate: Number(releaseDate),
     albumCover: req.file ? "images/" + req.file.filename : null,
+    user_id: user_id,
   }
 
   try {

@@ -4,6 +4,7 @@ import User from "./models/User";
 import Artist from "./models/Artist";
 import {Album} from "./models/Album";
 import {Track} from "./models/Track";
+import TrackHistory from "./models/TrackHistory";
 
 const run = async () => {
   await mongoose.connect(config.db);
@@ -14,6 +15,7 @@ const run = async () => {
     await db.dropCollection("artists");
     await db.dropCollection("albums");
     await db.dropCollection("tracks");
+    await db.dropCollection("trackhistories");
   } catch (err) {
     console.log("collection where not present,skipping drop");
   }
@@ -92,7 +94,7 @@ const run = async () => {
 
   if (!eminemAlbum1 || !eminemAlbum2 || !britniAlbum1 || !britniAlbum2 || !star) return;
 
-  await Track.create(
+  const [one,two,three] = await Track.create(
     {
       name: "mockingbird1",
       duration: "3:40",
@@ -217,19 +219,27 @@ const run = async () => {
       isPublished: true
     },
     {
-      name: "give me more",
+      name: "group of blood",
       duration: "3:00",
       trackNumber: 22,
       album: star._id,
       isPublished: true
     },
     {
-      name: "give me more",
+      name: "group of blood",
       duration: "3:00",
       trackNumber: 23,
       album: star._id,
       isPublished: true
     },
+  );
+
+  if (!one || !two || !three) return;
+
+  await TrackHistory.create(
+    {user_id: admin.id, track_id: one.id,datetime: Date.now()},
+    {user_id: admin.id, track_id: two.id,datetime: Date.now()},
+    {user_id: user.id, track_id: three.id,datetime: Date.now()}
   );
 
   await db.close();

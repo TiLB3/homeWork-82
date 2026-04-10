@@ -65,7 +65,11 @@ trackRouter.delete("/:id", auth, permit("admin"), async (req, res, next) => {
   }
 
   try {
-    await Track.findByIdAndDelete(id);
+    const track = await Track.findOne({_id: id});
+
+    if (!track) return res.status(401).send({error: "track not found"});
+
+    await track.deleteOne();
     res.send({message: "Track deleted successfully."});
   } catch (e) {
     next(e);

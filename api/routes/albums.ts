@@ -89,7 +89,11 @@ albumRouter.delete("/:id", auth, permit("admin"), async (req, res,next) => {
   }
 
   try {
-    await Album.findByIdAndDelete(id);
+    const album = await Album.findOne({_id: id});
+
+    if (!album) return res.status(401).send({error: "album not found"});
+
+    await album.deleteOne();
     res.send({message: "Album deleted successfully."});
   } catch (e) {
     next(e);
@@ -105,6 +109,8 @@ albumRouter.patch("/:id/togglePublished", auth, permit("admin"), async (req, res
     if (!isValidId) {
       return res.status(400).send({error: "Invalid ID"});
     }
+
+
 
     const newAlbum = await Album.findById(id);
 

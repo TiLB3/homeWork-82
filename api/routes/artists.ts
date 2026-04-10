@@ -55,7 +55,11 @@ artistRouter.delete("/:id", auth, permit("admin"), async (req, res, next) => {
   }
 
   try {
-    await Artist.findByIdAndDelete(id);
+    const artist = await Artist.findOne({_id: id});
+
+    if (!artist) return res.status(401).send({error: "Artist not found"});
+
+    await artist.deleteOne();
     res.send({message: "Artist deleted successfully."});
   } catch (e) {
     next(e);

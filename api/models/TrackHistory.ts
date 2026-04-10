@@ -1,4 +1,4 @@
-import mongoose, {now} from "mongoose";
+import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
@@ -18,6 +18,8 @@ const TrackHistorySchema = new Schema({
     default: Date.now,
   }
 });
+
+
 
 
 const TrackHistory = mongoose.model("TrackHistory", TrackHistorySchema);

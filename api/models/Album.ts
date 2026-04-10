@@ -36,5 +36,13 @@ export const AlbumSchema = new Schema({
   }
 });
 
+AlbumSchema.pre('deleteOne', { document: true }, async function() {
+  const tracks = await mongoose.model('Track').find({ album: this._id });
+
+  for (const track of tracks) {
+    await track.deleteOne();
+  }
+});
+
 export const Album = mongoose.model("Album", AlbumSchema);
 

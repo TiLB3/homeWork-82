@@ -1,5 +1,5 @@
 import mongoose, {Types} from "mongoose";
-import {Album} from "./Album";
+import {Album, AlbumSchema} from "./Album";
 
 const Schema = mongoose.Schema;
 
@@ -37,6 +37,9 @@ export const TrackSchema = new Schema({
   }
 });
 
+TrackSchema.pre('deleteOne', {document: true}, async function () {
+  await mongoose.model('TrackHistory').deleteMany({track_id: this._id});
+});
 
 
 export const Track = mongoose.model("Track", TrackSchema);

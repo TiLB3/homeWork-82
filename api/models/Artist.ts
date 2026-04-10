@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import {Album} from "./Album";
 
 const Schema = mongoose.Schema;
 
@@ -20,6 +21,15 @@ const ArtistSchema = new Schema({
     default: false,
   }
 });
+
+ArtistSchema.pre('deleteOne', { document: true }, async function() {
+  const albums = await mongoose.model('Album').find({ artist: this._id });
+
+  for (const album of albums) {
+    await album.deleteOne();
+  }
+});
+
 
 const Artist = mongoose.model("Artist", ArtistSchema);
 

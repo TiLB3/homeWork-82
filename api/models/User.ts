@@ -35,6 +35,12 @@ const UserSchema = new Schema<
     default: 'user',
     enum: ["user", "admin"],
   },
+  displayName: {
+    type: String,
+    required: true,
+  },
+  googleID: String,
+  avatar: String,
   token: {
     type: String,
   }
@@ -62,7 +68,7 @@ UserSchema.methods.generateToken = function () {
 
 UserSchema.set("toJSON", {
   transform: (_doc, ret, _options) => {
-    const {password,token, ...rest} = ret;
+    const {password, token, ...rest} = ret;
 
     return rest;
   }

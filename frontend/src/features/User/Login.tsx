@@ -9,8 +9,9 @@ import Grid from "@mui/material/Grid";
 import {Alert, Button, TextField} from "@mui/material";
 import {Link, useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
-import {getLoginError, login} from "./store/usersSlice.ts";
+import {getLoginError, googleLogin, login} from "./store/usersSlice.ts";
 import {GoogleLogin} from "@react-oauth/google";
+import {toast} from "react-toastify";
 
 const Login = () => {
   const [form, setForm] = useState<LoginMutation>({
@@ -48,6 +49,11 @@ const Login = () => {
       console.log(err);
     }
   }
+
+  const googleLoginHandler = async (credential: string) => {
+    await dispatch(googleLogin(credential)).unwrap();
+    navigate('/');
+  };
 
   return (
     <Container
@@ -127,10 +133,12 @@ const Login = () => {
           <Box sx={{mb : 2, display: 'flex', justifyContent: 'end'}}>
             <GoogleLogin
                 onSuccess={(credentialResponse) => {
-                console.log(credentialResponse);
+                  if (credentialResponse.credential) {
+                    void googleLoginHandler(credentialResponse.credential);
+                  }
               }}
               onError={() => {
-                console.log('Login Failed');
+                toast.error("Login failed.");
               }}
             />
           </Box>

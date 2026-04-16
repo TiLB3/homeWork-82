@@ -57,6 +57,19 @@ const usersSlice = createSlice({
       state.loginError = error || null;
     });
 
+    builder.addCase(googleLogin.pending, (state) => {
+      state.loginLoading = true;
+      state.loginError = null;
+    });
+    builder.addCase(googleLogin.fulfilled, (state, {payload: user}) => {
+      state.loginLoading = false;
+      state.user = user;
+    });
+    builder.addCase(googleLogin.rejected, (state, {payload: error}) => {
+      state.loginLoading = false;
+      state.loginError = error || null;
+    });
+
     builder.addCase(logout.pending, (state) => {
       state.loginLoading = true;
     });
@@ -109,6 +122,21 @@ export const login = createAsyncThunk<
       throw e;
     }
   });
+
+export const googleLogin = createAsyncThunk<IUser, string, { rejectValue: GlobalError }>(
+  'users/googleLogin',
+  async (credential, { rejectWithValue }) => {
+    try {
+      const response = await axiosApi.post<{message: string, user: IUser }>('/users/google', { credential });
+      return response.data.user;
+    } catch (e) {
+      if (isAxiosError(e) && e.response && e.response.status === 400) {
+        return rejectWithValue(e.response.data as GlobalError);
+      }
+      throw e;
+    }
+  },
+);
 
 export const logout = createAsyncThunk(
   "user/logout",

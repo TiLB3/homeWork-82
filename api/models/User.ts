@@ -1,7 +1,8 @@
 import mongoose, {Document, HydratedDocument, Model} from "mongoose";
 import bcrypt from "bcrypt";
 import {UserField} from "../types";
-import {randomUUID} from "node:crypto";
+import {config} from "../config";
+import jwt from "jsonwebtoken";
 
 const Schema = mongoose.Schema;
 
@@ -56,7 +57,7 @@ UserSchema.methods.checkPassword = function (password: string) {
 }
 
 UserSchema.methods.generateToken = function () {
-  this.token = randomUUID();
+  this.token = jwt.sign({_id: this._id}, config.jwt_secret, {expiresIn: "1h"});
 }
 
 UserSchema.set("toJSON", {

@@ -40,7 +40,10 @@ const UserSchema = new Schema<
     required: true,
   },
   googleID: String,
-  avatar: String,
+  avatar: {
+    type: String,
+    default: null,
+  },
   token: {
     type: String,
   }

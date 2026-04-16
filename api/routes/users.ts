@@ -4,16 +4,19 @@ import User from "../models/User";
 import auth, {RequestWithUser} from "../middleware/auth";
 import {config} from "../config";
 import {OAuth2Client} from "google-auth-library";
+import {imageUpload} from "../multer";
 
 const usersRouter = Router();
 
 
-usersRouter.post("/", async (req, res, next) => {
+usersRouter.post("/",imageUpload.single("avatar"), async (req, res, next) => {
   try {
     const user = new User({
       username: req.body.username,
       password: req.body.password,
-      role: req.body.role
+      role: req.body.role,
+      displayName: req.body.displayName,
+      avatar: req.file ? "images/" + req.file.filename : null
     });
 
     user.generateToken();

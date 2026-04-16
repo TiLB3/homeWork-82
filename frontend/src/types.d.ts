@@ -3,6 +3,8 @@ export interface IUser {
   username: string;
   token: string;
   role: string;
+  displayName: string;
+  avatar: string | null;
 }
 
 export interface IArtist {
@@ -60,6 +62,8 @@ export interface ITrackWithoutID {
 export interface RegisterMutation {
   username: string;
   password: string;
+  displayName: string;
+  avatar: File | null;
 }
 
 export interface LoginMutation {

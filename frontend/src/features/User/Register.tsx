@@ -10,11 +10,14 @@ import {Button, TextField} from "@mui/material";
 import {Link, useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
 import {getRegisterError, register} from "./store/usersSlice.ts";
+import FileInput from "../../components/UI/FileInput/FileInput.tsx";
 
 const Register = () => {
   const [form, setForm] = useState<RegisterMutation>({
     username: '',
     password: '',
+    displayName: '',
+    avatar: null
   });
 
   const dispatch = useAppDispatch();
@@ -33,14 +36,18 @@ const Register = () => {
     try {
       await dispatch(register(form)).unwrap();
       setForm({
-        username: "",
-        password: "",
+        username: '',
+        password: '',
+        displayName: '',
+        avatar: null
       });
       navigate("/");
     } catch (err) {
       setForm({
-        username: "",
-        password: "",
+        username: '',
+        password: '',
+        displayName: '',
+        avatar: null
       });
 
       console.log(err);
@@ -52,6 +59,17 @@ const Register = () => {
       return error?.errors[fieldName].message;
     } catch {
       return undefined
+    }
+  }
+
+  const fileInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const {name, files} = e.target;
+
+    if (files) {
+      setForm(prevState => ({
+        ...prevState,
+        [name]: files[0],
+      }));
     }
   }
 
@@ -112,6 +130,26 @@ const Register = () => {
                 onChange={inputChangeHandler}
                 error={Boolean(getFieldError("password"))}
                 helperText={getFieldError("password")}
+              />
+            </Grid>
+            <Grid size={{xs: 12}}>
+              <TextField
+                sx={{width: "100%"}}
+                required
+                name="displayName"
+                label="Your name"
+                type="displayName"
+                value={form.displayName}
+                onChange={inputChangeHandler}
+                error={Boolean(getFieldError("displayName"))}
+                helperText={getFieldError("displayName")}
+              />
+            </Grid>
+            <Grid>
+              <FileInput
+                label="avatar"
+                name="avatar"
+                onChange={fileInputChangeHandler}
               />
             </Grid>
           </Grid>

@@ -6,9 +6,7 @@ import {persistor, store} from "./app/store.ts";
 import {PersistGate} from 'redux-persist/integration/react';
 import {ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {addInterceptors} from "./axiosApi.ts";
 
-addInterceptors(store);
 
 createRoot(document.getElementById('root')!).render(
   <Provider store={store}>

@@ -62,7 +62,7 @@ UserSchema.methods.generateToken = function () {
 
 UserSchema.set("toJSON", {
   transform: (_doc, ret, _options) => {
-    const {password, ...rest} = ret;
+    const {password,token, ...rest} = ret;
 
     return rest;
   }

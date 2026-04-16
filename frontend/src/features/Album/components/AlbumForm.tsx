@@ -120,7 +120,7 @@ const AlbumForm: React.FC<Props> = ({onSubmit, loading}) => {
         </Grid>
         <Grid>
           <CustomTextField
-            multiline
+            type="number"
             rows={3}
             id="releaseDate"
             label="ReleaseDate"

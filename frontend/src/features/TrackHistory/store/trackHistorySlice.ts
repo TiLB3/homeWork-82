@@ -41,13 +41,9 @@ const TrackHistoriesSlice = createSlice({
   }
 });
 
-export const fetchTrackHistories = createAsyncThunk<ITrackHistory[], string>("trackhistory/fetchTrackHistories",
-  async (token) => {
-    const response = await axiosApi<ITrackHistory[]>("/track_history", {
-      headers: {
-        'Authorization': token
-      }
-    });
+export const fetchTrackHistories = createAsyncThunk<ITrackHistory[]>("trackhistory/fetchTrackHistories",
+  async () => {
+    const response = await axiosApi<ITrackHistory[]>("/track_history");
 
     return response.data;
   });
@@ -57,11 +53,7 @@ export const createTrackHistories = createAsyncThunk<void, {
   track_id: string
 }>("trackhistory/createTrackHistories",
   async (trackHistory) => {
-    await axiosApi.post("/track_history", trackHistory, {
-      headers: {
-        'Authorization': trackHistory.token
-      }
-    });
+    await axiosApi.post("/track_history", trackHistory);
   });
 
 

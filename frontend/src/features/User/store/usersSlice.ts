@@ -120,9 +120,7 @@ export const logout = createAsyncThunk(
 
 
 export const getUser = (state: RootState) => state.user.user;
-export const getRegisterLoading = (state: RootState) => state.user.registerLoading;
 export const getRegisterError = (state: RootState) => state.user.registerError;
 export const getLoginError = (state: RootState) => state.user.loginError;
-export const getLoginLoading = (state: RootState) => state.user.loginLoading;
 
 export const userReducer = usersSlice.reducer;

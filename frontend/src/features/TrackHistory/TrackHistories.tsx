@@ -27,10 +27,7 @@ const TrackHistories = () => {
     }
 
     const fetch = async () => {
-      if (user && user.token) {
-        await dispatch(fetchTrackHistories(user.token));
-      }
-
+        await dispatch(fetchTrackHistories());
     }
 
     void fetch();

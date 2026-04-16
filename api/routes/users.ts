@@ -14,8 +14,16 @@ usersRouter.post("/", async (req, res, next) => {
     });
 
     user.generateToken();
-    await user.save();
-    res.send(user);
+
+    const saveUser = await user.save();
+    res.cookie("token", saveUser.token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+    });
+
+    res.send(saveUser);
   } catch (error) {
     if (error instanceof Error.ValidationError) {
       return res.status(400).send(error);
@@ -44,7 +52,14 @@ usersRouter.post("/sessions", async (req, res, next) => {
   }
 
   user.generateToken();
-  await user.updateOne({$set: {token: user.token}});
+
+  const saveUser = await user.save();
+  res.cookie("token", saveUser.token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+  });
 
   res.send({message: "Logged in successfully", user});
 });
@@ -53,6 +68,11 @@ usersRouter.delete("/sessions", auth, async (req, res) => {
   const {user} = req as RequestWithUser;
   user.token = '';
   await user.save();
+
+  res.clearCookie("token", {
+    httpOnly: true,
+    sameSite: "strict",
+  });
 
   res.send({message: "Logged out successfully"});
 });

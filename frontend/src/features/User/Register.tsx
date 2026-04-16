@@ -9,8 +9,10 @@ import Grid from "@mui/material/Grid";
 import {Button, TextField} from "@mui/material";
 import {Link, useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
-import {getRegisterError, register} from "./store/usersSlice.ts";
+import {getRegisterError, googleLogin, register} from "./store/usersSlice.ts";
 import FileInput from "../../components/UI/FileInput/FileInput.tsx";
+import {GoogleLogin} from "@react-oauth/google";
+import {toast} from "react-toastify";
 
 const Register = () => {
   const [form, setForm] = useState<RegisterMutation>({
@@ -72,6 +74,11 @@ const Register = () => {
       }));
     }
   }
+
+  const googleLoginHandler = async (credential: string) => {
+    await dispatch(googleLogin(credential)).unwrap();
+    navigate('/');
+  };
 
   return (
     <Container
@@ -161,6 +168,18 @@ const Register = () => {
           >
             Sign Up
           </Button>
+          <Box sx={{mb: 2, display: 'flex', justifyContent: 'end'}}>
+            <GoogleLogin
+              onSuccess={(credentialResponse) => {
+                if (credentialResponse.credential) {
+                  void googleLoginHandler(credentialResponse.credential);
+                }
+              }}
+              onError={() => {
+                toast.error("Login failed.");
+              }}
+            />
+          </Box>
           <Grid
             container
             justifyContent="flex-end"

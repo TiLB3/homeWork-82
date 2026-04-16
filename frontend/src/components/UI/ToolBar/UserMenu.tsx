@@ -4,6 +4,9 @@ import {Box, Button, Menu, MenuItem} from '@mui/material';
 import {NavLink} from "react-router-dom";
 import {useAppDispatch} from "../../../app/hooks.ts";
 import {logout} from "../../../features/User/store/usersSlice.ts";
+import Avatar from "@mui/material/Avatar";
+import NoPic from "../../../assets/NoPic.png";
+import {base_url} from "../../../globalConstants.ts";
 
 interface Props {
   user: IUser;
@@ -29,15 +32,23 @@ const UserMenu: React.FC<Props> = ({user}) => {
   const handleCloseAddEntity = () => {
     setAddEntity(null);
   }
+
   return (
     <Box sx={{display: "flex", alignItems: "center", columnGap: "1rem"}}>
       <Box>
-        <Button
-          onClick={handleClick}
-          color="inherit"
-        >
-          Hello, {user.username}
-        </Button>
+        <Box sx={{display: "flex", alignItems: "center"}}>
+          <Button
+            onClick={handleClick}
+            color="inherit"
+          >
+            Hello, {user.displayName || user.username}
+          </Button>
+          <Avatar
+            alt={user.displayName}
+            src={user.avatar ? base_url + "/" + user.avatar : NoPic}
+            sx={{m: 1, width: 28, height: 28}}
+          />
+        </Box>
         <Menu
           anchorEl={anchorEl}
           keepMounted

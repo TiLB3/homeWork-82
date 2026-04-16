@@ -1,6 +1,7 @@
 import type {
   GlobalError,
-  IUser, LoginMutation,
+  IUser,
+  LoginMutation,
   RegisterMutation,
   ValidationError
 } from "../../../types";
@@ -91,7 +92,19 @@ export const register = createAsyncThunk<
   "user/register",
   async (registerMutation, {rejectWithValue}) => {
     try {
-      const {data: user} = await axiosApi.post<IUser>("/users", registerMutation);
+      const formData = new FormData();
+      const keys = Object.keys(registerMutation) as (keyof RegisterMutation)[];
+
+      keys.forEach((key) => {
+        const value = registerMutation[key];
+
+        if (value !== null) {
+          formData.append(key, value);
+        }
+      })
+
+
+      const {data: user} = await axiosApi.post<IUser>("/users", formData);
 
       return user;
     } catch (e) {

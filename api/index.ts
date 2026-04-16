@@ -18,7 +18,6 @@ const port = 8000;
 app.use(cors({
   origin: "http://localhost:5173",
   credentials: true,
-
 }));
 app.use(express.static('public'));
 app.use(express.json());

@@ -57,7 +57,7 @@ UserSchema.methods.checkPassword = function (password: string) {
 }
 
 UserSchema.methods.generateToken = function () {
-  this.token = jwt.sign({_id: this._id}, config.jwt_secret, {expiresIn: "1h"});
+  this.token = jwt.sign({_id: this._id}, config.jwt_secret, {expiresIn: "1d"});
 }
 
 UserSchema.set("toJSON", {

@@ -10,6 +10,7 @@ import {Alert, Button, TextField} from "@mui/material";
 import {Link, useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
 import {getLoginError, login} from "./store/usersSlice.ts";
+import {GoogleLogin} from "@react-oauth/google";
 
 const Login = () => {
   const [form, setForm] = useState<LoginMutation>({
@@ -123,6 +124,18 @@ const Login = () => {
           >
             Sign in
           </Button>
+          <Box sx={{mb : 2, display: 'flex', justifyContent: 'end'}}>
+            <GoogleLogin
+                onSuccess={(credentialResponse) => {
+                console.log(credentialResponse);
+              }}
+              onError={() => {
+                console.log('Login Failed');
+              }}
+            />
+          </Box>
+
+
           <Grid
             container
             justifyContent="flex-end"

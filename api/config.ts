@@ -7,4 +7,6 @@ export const config = {
   publicPath: path.join(rootPath, 'public'),
   db: "mongodb://localhost/spotify-Timur",
   jwt_secret: process.env.JWT_SECRET || "...",
+  client_secret: process.env.CLIENT_SECRET || "...",
+  client_id: process.env.CLIENT_ID || "...",
 }
